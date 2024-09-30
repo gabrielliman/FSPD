@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package wallet;
+
+// Serviço de Carteira
+service WalletService {
+    // Consulta o saldo de uma carteira
+    rpc GetBalance (BalanceRequest) returns (BalanceResponse);
+
+    // Cria uma ordem de pagamento
+    rpc CreatePaymentOrder (OrderRequest) returns (OrderResponse);
+
+    // Transfere uma ordem de pagamento para outra carteira
+    rpc Transfer (TransferRequest) returns (TransferResponse);
+
+    // Encerra a execução do servidor
+    rpc EndExecution (EndRequest) returns (EndResponse);
+}
+
+// Requisição para consultar o saldo de uma carteira
+message BalanceRequest {
+    string wallet_id = 1;
+}
+
+// Resposta com o saldo de uma carteira
+message BalanceResponse {
+    int32 balance = 1;
+}
+
+// Requisição para criar uma ordem de pagamento
+message OrderRequest {
+    string wallet_id = 1;
+    int32 amount = 2;
+}
+
+// Resposta com o ID da ordem criada
+message OrderResponse {
+    int32 order_id = 1;
+}
+
+// Requisição para transferir uma ordem de pagamento
+message TransferRequest {
+    int32 order_id = 1;
+    int32 amount = 2;
+    string target_wallet_id = 3;
+}
+
+// Resposta com o status da transferência
+message TransferResponse {
+    int32 status = 1;
+}
+
+// Requisição para encerrar a execução do servidor
+message EndRequest {}
+
+// Resposta ao encerrar a execução do servidor
+message EndResponse {
+    int32 pending_orders = 1;
+    repeated WalletInfo wallets = 2;
+}
+
+// Informações sobre uma carteira
+message WalletInfo {
+    string wallet_id = 1;
+    int32 balance = 2;
+}

@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package store;
+
+// Define o serviço gRPC StoreService
+service StoreService {
+    // RPC para obter o preço de um item
+    rpc GetPrice (GetPriceRequest) returns (GetPriceResponse);
+    // RPC para realizar uma compra
+    rpc Purchase (PurchaseRequest) returns (PurchaseResponse);
+    // RPC para encerrar a execução do serviço
+    rpc Shutdown (EndRequest) returns (EndResponse);
+}
+
+// Mensagem de solicitação para o RPC GetPrice
+message GetPriceRequest {}
+
+// Mensagem de resposta para o RPC GetPrice
+message GetPriceResponse {
+    int32 price = 1;  // Preço do item, identificado pelo número 1
+}
+
+// Mensagem de solicitação para o RPC Purchase
+message PurchaseRequest {
+    int32 order_id = 1;  // ID do pedido para a compra, identificado pelo número 1
+}
+
+// Mensagem de resposta para o RPC Purchase
+message PurchaseResponse {
+    int32 status = 1;  // Status da compra, identificado pelo número 1
+}
+
+// Mensagem de solicitação para o RPC Shutdown
+message EndRequest {}
+
+// Mensagem de resposta para o RPC Shutdown
+message EndResponse {
+    int32 store_balance = 1;  // Saldo da loja no momento do desligamento, identificado pelo número 1
+    int32 wallet_shutdown_status = 2;  // Status do desligamento da carteira, identificado pelo número 2
+}
